@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Namonaki0/node-crash#readme",
   "dependencies": {
+    "express": "^4.18.2",
     "lodash": "^4.17.21"
   }
 }
