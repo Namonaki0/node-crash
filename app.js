@@ -1,13 +1,29 @@
 const express = require("express");
+const morgan = require("morgan");
+const mongoose = require("mongoose");
+require("dotenv").config();
+
+const db_password = process.env.DB_PASSWORD;
 
 //? express app
 const app = express();
 
+//? connect to mongodb
+const dbURI = `mongodb+srv://localhost:${db_password}@nodecrash.wzhaeah.mongodb.net/`;
+mongoose
+  .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then((res) => {
+    //? listen to requests
+    app.listen("3000");
+  })
+  .catch((err) => console.log(err));
+
 //? register view engine
 app.set("view engine", "ejs");
 
-//? listen to requests
-app.listen("3000");
+//? middleware and static files
+app.use(express.static("public"));
+app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
   //? static
@@ -28,6 +44,7 @@ app.get("/", (req, res) => {
     },
   ];
   res.render("index", { title: "Home", blogs });
+  console.log(req);
 });
 app.get("/about", (req, res) => {
   //? static
