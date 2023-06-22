@@ -28,49 +28,30 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(morgan("dev"));
 
-//? mongoose and mongo sandbox routes
-app.get("/add-blog", (req, res) => {
-  const blog = new Blog({
-    title: "new blog",
-    snippet: "about my new blog",
-    body: "more about the blog",
-  });
-
-  blog
-    .save()
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
 app.get("/", (req, res) => {
   //? static
   //   res.sendFile("./views/index.html", { root: __dirname });
   //? dynamic
-  const blogs = [
-    {
-      title: "First blog",
-      snippet: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-    {
-      title: "Second blog",
-      snippet: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-    {
-      title: "Third blog",
-      snippet: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-  ];
-  res.render("index", { title: "Home", blogs });
+  res.redirect("/blogs");
 });
+
 app.get("/about", (req, res) => {
   //? static
   //   res.sendFile("./views/about.html", { root: __dirname });
   //? dynamic
   res.render("about", { title: "About" });
+});
+
+app.get("/blogs", (req, res) => {
+  Blog.find()
+    .sort({ createdAt: -1 })
+    .then((result) => {
+      res.render("index", {
+        title: "All blogs",
+        blogs: result,
+      });
+    })
+    .catch((err) => console.log(err));
 });
 
 app.get("/blogs/create", (req, res) => {
