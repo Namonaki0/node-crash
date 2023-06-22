@@ -87,3 +87,29 @@
       font-size: 1.2em;
       cursor: pointer;
     }
+    .blogs a {
+      display: block;
+      margin: 40px 0;
+      padding-left: 30px;
+      border-left: 6px solid crimson;
+    }
+    .blogs a:hover h3 {
+      color: crimson
+    }
+    .details {
+      position: relative;
+    }
+    .delete {
+      background: red;
+      color: white;
+      padding: 8px;
+      transition: all 100ms linear;
+    }
+    .delete:hover {
+      cursor: pointer;
+      box-shadow: 1px 2px 3px rgba(0,0,0,.2);
+      background: crimson;
+    }
+    .content-body {
+      margin-bottom: 50px;
+    }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./partials/head.ejs") %> <%- include("./partials/nav.ejs") %>
+  <body>
+    <div class="details content">
+      <h2><%= blog.title %></h2>
+      <div class="content">
+        <p class="content-body"><%= blog.body %></p>
+      </div>
+      <a class="delete" data-doc="<%= blog._id %>">delete</a>
+    </div>
+    <%- include("./partials/footer.ejs") %>
+
+    <script>
+      //? Front-end logic for deleting individual blog
+      const deleteButton = document.querySelector("a.delete");
+
+      deleteButton.addEventListener("click", (el) => {
+        const endpoint = `/blogs/${el.target.dataset.doc}`;
+
+        fetch(endpoint, {
+          method: "DELETE",
+        })
+          .then((response) => response.json())
+          .then((data) => (window.location.href = data.redirect))
+          .catch((err) => console.log(err));
+      });
+    </script>
+  </body>
+</html>

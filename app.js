@@ -6,12 +6,13 @@ const Blog = require("./models/blog");
 require("dotenv").config();
 
 const db_password = process.env.DB_PASSWORD;
+const db_user = process.env.DB_USER;
 
 //? express app
 const app = express();
 
 //? connect to mongodb
-const dbURI = `mongodb+srv://Namonaki0:${db_password}@nodecrash.wzhaeah.mongodb.net/`;
+const dbURI = `mongodb+srv://${db_user}:${db_password}@nodecrash.wzhaeah.mongodb.net/`;
 
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -26,6 +27,8 @@ app.set("view engine", "ejs");
 
 //? middleware and static files
 app.use(express.static("public"));
+// takes url encoded data and passes into an object we can use on the request object
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
@@ -54,8 +57,37 @@ app.get("/blogs", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+app.post("/blogs", (req, res) => {
+  const blog = new Blog(req.body);
+  blog
+    .save()
+    .then((result) => {
+      res.redirect("/blogs");
+    })
+    .catch((err) => console.log(err));
+});
+
 app.get("/blogs/create", (req, res) => {
   res.render("create", { title: "Create a new blog" });
+});
+
+app.get("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+  Blog.findById(id)
+    .then((result) => {
+      res.render("details", { blog: result, title: "blog details" });
+    })
+    .catch((err) => console.log(err));
+});
+
+//? deleting blogs - in conjunction with details.ejs file where FE is doing the work
+app.delete("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+  Blog.findByIdAndDelete(id)
+    .then((result) => {
+      res.json({ redirect: "/blogs" });
+    })
+    .catch((err) => console.log(err));
 });
 
 //? redirects
