@@ -25,4 +25,5 @@ The structure of the application follows the MVC architectural pattern:
 ## Resources
 - Node.js Documentation
 - Express.js Documentation
-- EJS Documentation - [MVC Architecture Overview](https://en.wikipedia.org/wiki/Model–view–controller)
+- EJS Documentation
+- [MVC Architecture Overview](https://en.wikipedia.org/wiki/Model–view–controller)
