@@ -100,6 +100,9 @@
       position: relative;
     }
     .delete {
+      display: flex;
+      max-width: fit-content;
+      align-items: center;
       background: red;
       color: white;
       padding: 8px;
@@ -110,6 +113,13 @@
       box-shadow: 1px 2px 3px rgba(0,0,0,.2);
       background: crimson;
     }
+    svg {
+      color: white;
+    }
     .content-body {
       margin-bottom: 50px;
+    }
+
+    img > * {
+      color: white
     }
